@@ -1,13 +1,13 @@
-# Contributor:
-# Maintainer:
+# Contributor: Adam Thiede <me@adamthiede.com>
+# Maintainer: Adam Thiede <me@adamthiede.com>
 pkgname=beepy-keyboard-firmware-src
 _modname=beepy-kbd
 _modver=2.11
 pkgver=1
 pkgrel=0
 pkgdesc="beepy bbq20 keyboard firmware"
-url="https://github.com/adamthiede/beepberry-keyboard-driver"
-arch="all"
+url="https://github.com/ardangelo/beepberry-keyboard-driver"
+arch="aarch64"
 license="GPL-2.0-or-later"
 depends="akms dtc linux-rpi-dev"
 makedepends="linux-rpi-dev dtc"
@@ -27,7 +27,6 @@ prepare() {
 		make
 	}
 	EOF
-
 }
 
 build() {

@@ -1,17 +1,19 @@
-# Contributor:
-# Maintainer:
+# Contributor: Adam Thiede <me@adamthiede.com>
+# Maintainer: Adam Thiede <me@adamthiede.com>
 pkgname=beepy-meta
 pkgver=1
 pkgrel=0
 pkgdesc="beepy metapackage for configs"
 url="beepy.sqfmi.com"
-arch="all"
+arch="aarch64"
 license="GPL-3.0-or-later"
 depends="
 	linux-rpi-dev
 	linux-rpi
 	kbd
 	beepy-symbol-overlay
+	beepy-keyboard-firmware-src
+	beepy-sharp-firmware-src
 "
 install="$pkgname.post-install $pkgname.post-upgrade"
 source="

@@ -1,13 +1,13 @@
-# Contributor:
-# Maintainer:
+# Contributor: Adam Thiede <me@adamthiede.com>
+# Maintainer: Adam Thiede <me@adamthiede.com>
 pkgname=beepy-sharp-firmware-src
 _modname=sharp-drm
 _modver=1.5
 pkgver=1
 pkgrel=0
 pkgdesc="beepy sharp memory display firmware"
-url="https://github.com/adamthiede/sharp-drm-driver"
-arch="all"
+url="https://github.com/ardangelo/sharp-drm-driver"
+arch="aarch64"
 license="GPL-2.0-or-later"
 depends="akms dtc linux-rpi-dev"
 makedepends="linux-rpi-dev dtc"
