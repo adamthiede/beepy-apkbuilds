@@ -33,7 +33,7 @@ jobs:
         uses: actions/configure-pages@v5
 
       - name: setup alpine
-        uses: jirukta/setup-alpine@v1
+        uses: jirutka/setup-alpine@v1
         with:
           packages: >
             alpine-sdk
