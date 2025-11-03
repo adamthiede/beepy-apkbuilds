@@ -7,27 +7,18 @@ pkgdesc="beepy metapackage for configs"
 url="beepy.sqfmi.com"
 arch="all"
 license="GPL-3.0-or-later"
-depends="linux-rpi-dev linux-rpi kbd"
-makedepends=""
-checkdepends=""
+depends="
+linux-rpi-dev
+linux-rpi
+kbd
+beepy-symbol-overlay
+"
 install="$pkgname.post-install $pkgname.post-upgrade"
 source="
 loadkeys.confd
 usercfg.txt
 "
-builddir="$srcdir/"
-
-build() {
-	# Replace with proper build command(s).
-	# Remove if there is no build command.
-	:
-}
-
-check() {
-	# Replace with proper check command(s).
-	# Remove and add !check option if there is no check command.
-	:
-}
+options="!check"
 
 package() {
 	install -Dm644 "$srcdir"/loadkeys.confd "$pkgdir"/etc/conf.d/loadkeys
