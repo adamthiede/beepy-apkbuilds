@@ -1,0 +1,30 @@
+# Contributor:
+# Maintainer:
+pkgname=beepy-sharp-firmware-src
+pkgver=1
+pkgrel=0
+pkgdesc="beepy sharp memory display firmware"
+url="https://github.com/adamthiede/sharp-drm-driver"
+arch="all"
+license=""
+depends=""
+makedepends="linux-rpi-dev"
+checkdepends=""
+install=""
+subpackages=""
+source="$pkgname-$pkgver.tar.gz::https://github.com/adamthiede/sharp-drm-driver/archive/refs/tags/$pkgver.tar.gz"
+builddir="$srcdir/sharp-drm-driver-$pkgver"
+options="!check" #no tests
+
+build() {
+	make
+}
+
+package() {
+	# Replace with proper package command(s)
+	:
+}
+
+sha512sums="
+d784f3aa2e99b45a0154086ec110cfc58cfaaa4247bf4d12cfa7b168519f80be394a776247582bd81d04dfab49292be7810d8ca1ecc9fa79269f7b4fda2cc95e  beepy-sharp-firmware-src-1.tar.gz
+"
