@@ -49,8 +49,7 @@ jobs:
         shell: alpine.sh {0}
         run: |
           id
-          abuild-keygen -a
-          doas cp ~/.abuild/*.pub /etc/apk/keys/
+          abuild-keygen -ain
           for bld in beepy-keyboard-firmware-src beepy-sharp-firmware-src beepy-symbol-overlay beepymeta; do
             echo "building $bld"
             cd $bld
