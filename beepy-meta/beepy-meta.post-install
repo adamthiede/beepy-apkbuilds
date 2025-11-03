@@ -1,0 +1,3 @@
+#!/bin/sh
+CMDS=" fbcon=font:VGA8x8 fbcon=map:10"
+grep $CMDS /boot/cmdline.txt || sed -e "s/$/$CMDS/" -i /boot/cmdline.txt
