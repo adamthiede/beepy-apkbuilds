@@ -1,6 +1,10 @@
 #!/bin/sh
 CMDS=" fbcon=font:VGA8x8 fbcon=map:10"
-grep $CMDS /boot/cmdline.txt || sed -e "s/$/$CMDS/" -i /boot/cmdline.txt
+grep "$CMDS" /boot/cmdline.txt || sed -e "s/$/$CMDS/" -i /boot/cmdline.txt
 
 grep beepy-kbd /etc/modules || echo 'beepy-kbd' >> /etc/modules
 grep sharp-drm /etc/modules || echo 'sharp-drm' >> /etc/modules
+
+grep beepy-kbd.map /etc/conf.d/loadkeys || sed -e 's,^keymap=.*,keymap="/usr/share/kbd/keymaps/beepy-kbd.map",' -i /etc/conf.d/loadkeys
+
+exit 0

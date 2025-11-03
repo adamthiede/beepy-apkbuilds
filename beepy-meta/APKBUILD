@@ -8,25 +8,21 @@ url="beepy.sqfmi.com"
 arch="all"
 license="GPL-3.0-or-later"
 depends="
-linux-rpi-dev
-linux-rpi
-kbd
-beepy-symbol-overlay
+	linux-rpi-dev
+	linux-rpi
+	kbd
+	beepy-symbol-overlay
 "
 install="$pkgname.post-install $pkgname.post-upgrade"
 source="
-loadkeys.confd
 usercfg.txt
 "
 options="!check"
 
 package() {
-	install -Dm644 "$srcdir"/loadkeys.confd "$pkgdir"/etc/conf.d/loadkeys
 	install -Dm644 "$srcdir"/usercfg.txt "$pkgdir"/boot/usercfg.txt
-	:
 }
 
 sha512sums="
-e2f7362c330eea5ed4ef68d070e57d65319237151c99bcff4752dc5a239aa36c11b2e72fc615499c5ef0cf6f33d83ea7f1d0d75c6a23c3dd17ee05981d936253  loadkeys.confd
 a907483b38e7c5629aab5992da1bf93acd34572cb508b162e40d66602fc030d217d524dce85cc0d44e833923d7137950bd90c89a487278b14bd32698300f044c  usercfg.txt
 "
