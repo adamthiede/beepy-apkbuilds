@@ -30,7 +30,7 @@ prepare() {
 }
 
 build() {
-	make
+	dtc -@ -I dts -O dtb -W no-unit_address_vs_reg -o beepy-kbd.dtbo beepy-kbd.dts
 }
 
 package() {

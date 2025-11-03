@@ -33,7 +33,7 @@ prepare() {
 }
 
 build() {
-	make
+	dtc -@ -I dts -O dtb -W no-unit_address_vs_reg -o sharp-drm.dtbo sharp-drm.dts
 }
 
 package() {
