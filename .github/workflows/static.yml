@@ -38,13 +38,13 @@ jobs:
           arch: aarch64
           packages: >
             alpine-sdk
-            abuild-rootbld
+            doas
 
       - name: Build
         shell: alpine.sh --root {0}
         run: |
           chmod 777 /var/cache/distfiles
-          echo 'permit nopass :wheel' > /etc/doas.conf
+          echo 'permit nopass runner' > /etc/doas.conf
 
       - name: Build
         shell: alpine.sh {0}
