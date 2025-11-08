@@ -51,21 +51,23 @@ jobs:
         shell: alpine.sh {0}
         run: |
           id
-          abuild-keygen -ain
+          mkdir -p ~/.abuild
+          cp abuild.rsa.pub ~/.abuild
+          doas cp abuild.rsa.pub /etc/apk/keys/
+          echo "${{ secrets.ABUILDKEY_B64 }}" | base64 -d > ~/.abuild/abuild.rsa
+          echo 'PACKAGER_PRIVKEY="/home/runner/.abuild/abuild.rsa"' > ~/.abuild/abuild.conf
           for bld in device-sqfmi-beepy; do
             echo "building $bld"
             cd $bld
             abuild -r
             cd ..
           done
-          cp ~/.abuild/*.pub ~/packages/
-          ls ~/.abuild/*.pub > ~/packages/key
 
       - name: Upload artifact
         uses: actions/upload-pages-artifact@v3
         with:
           # Upload entire repository
-          path: '~/packages'
+          path: '/home/runner/packages'
 
       - name: Deploy to GitHub Pages
         id: deployment
