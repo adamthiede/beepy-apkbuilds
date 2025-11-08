@@ -51,10 +51,10 @@ jobs:
         run: |
           id
           abuild-keygen -ain
-          for bld in beepy-keyboard-firmware-src beepy-sharp-firmware-src beepy-symbol-overlay beepymeta; do
+          for bld in device-sqfmi-beepy; do
             echo "building $bld"
             cd $bld
-            abuild rootbld
+            abuild -r
             cd ..
           done
           cp ~/.abuild/*.pub ~/packages/
