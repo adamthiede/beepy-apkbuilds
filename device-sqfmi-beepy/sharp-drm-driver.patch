@@ -1,0 +1,45 @@
+diff --git a/sharp-drm-driver/src/drm_iface.c b/sharp-drm-driver/src/drm_iface.c
+index 239f7d0..5b70c32 100644
+--- a/sharp-drm-driver/src/drm_iface.c
++++ b/sharp-drm-driver/src/drm_iface.c
+@@ -60,8 +60,9 @@
+
+ // Globals
+
+-static void __iomem *g_spi_cs_reg1 = NULL;
+-static void __iomem *g_spi_cs_reg2 = NULL;
++//unused
++// static void __iomem *g_spi_cs_reg1 = NULL;
++// static void __iomem *g_spi_cs_reg2 = NULL;
+
+ struct overlay_storage_t
+ {
+diff --git a/sharp-drm-driver/src/main.c b/sharp-drm-driver/src/main.c
+index 0fd201f..d1638e9 100644
+--- a/sharp-drm-driver/src/main.c
++++ b/sharp-drm-driver/src/main.c
+@@ -9,6 +9,7 @@
+ #include <linux/platform_device.h>
+ #include <linux/spi/spi.h>
+
++#include "sharp_memory.h"
+ #include "drm_iface.h"
+ #include "params_iface.h"
+ #include "ioctl_iface.h"
+diff --git a/sharp-drm-driver/src/sharp_memory.h b/sharp-drm-driver/src/sharp_memory.h
+new file mode 100644
+index 0000000..8785330
+--- /dev/null
++++ b/sharp-drm-driver/src/sharp_memory.h
+@@ -0,0 +1,11 @@
++#ifndef SHARP_MEMORY_H_
++#define SHARP_MEMORY_H_
++
++void sharp_memory_set_invert(int setting);
++void* sharp_memory_add_overlay(int x, int y, int width, int height, unsigned char const* pixels);
++void sharp_memory_remove_overlay(void* entry);
++void* sharp_memory_show_overlay(void* storage);
++void sharp_memory_hide_overlay(void* display);
++void sharp_memory_clear_overlays(void);
++
++#endif

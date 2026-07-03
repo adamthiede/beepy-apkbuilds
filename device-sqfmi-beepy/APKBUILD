@@ -2,7 +2,7 @@
 # Maintainer: Adam Thiede <me@adamthiede.com>
 pkgname=device-sqfmi-beepy
 pkgdesc="SQFMI Beepy"
-pkgver=1
+pkgver=2
 pkgrel=0
 
 _kbdmodname=beepy-kbd
@@ -10,8 +10,8 @@ _kbdmodver=2.11
 _kbdcommit="e65472734decd59450e2448d1218c4f69babcea8"
 
 _dispmodname=sharp-drm
-_dispmodver=1.5
-_dispcommit="181a5c5b9dd6fecc66cf4d18a94f4a83277b8ca4"
+_dispmodver=1.6
+_dispcommit="b8e7a86e962541b5d741c8fcc18152305279f118"
 
 _overlaycommit="910b9f59c2bbe5e7f33725370ceff0a4c18777af"
 
@@ -19,7 +19,7 @@ url="https://postmarketos.org"
 license="MIT"
 arch="aarch64"
 options="!check !archcheck"
-install="$pkgname.post-install $pkgname.post-upgrade"
+install="$pkgname.post-install $pkgname.post-upgrade $pkgname-openrc.post-install $pkgname-modules.post-install"
 depends="
 	raspberrypi-bootloader
 	linux-rpi
@@ -32,8 +32,9 @@ source="
 	$pkgname-$_kbdcommit.tar.gz::https://github.com/ardangelo/beepberry-keyboard-driver/archive/$_kbdcommit.tar.gz
 	$pkgname-$_overlaycommit.tar.gz::https://github.com/ardangelo/beepy-symbol-overlay/archive/$_overlaycommit.tar.gz
 	$pkgname-$_dispcommit.tar.gz::https://github.com/ardangelo/sharp-drm-driver/archive/$_dispcommit.tar.gz
-	displaydriver-compile-on-new-kernels.patch
+	keyboard-driver.patch
 	symbol-overlay.patch
+	sharp-drm-driver.patch
 "
 subpackages="$pkgname-overlay $pkgname-modules $pkgname-openrc"
 
@@ -46,7 +47,7 @@ _overlaydir="$srcdir/beepy-symbol-overlay"
 
 prepare() {
 	# rename directories to generic name for patches to apply
-	mv "$srcdir"/sharp-drm-driver-$_dispcommit $_dispdir
+	mv "$srcdir/sharp-drm-driver-$_dispcommit" $_dispdir
 	mv "$srcdir/beepy-symbol-overlay-$_overlaycommit" $_overlaydir
 	mv "$srcdir/beepberry-keyboard-driver-$_kbdcommit" $_kbddir
 
@@ -59,7 +60,7 @@ prepare() {
 	built_modules=$_dispmodname.ko
 
 	build() {
-		make
+		KERNELERLEASE=\$(cat /usr/share/kernel/rpi/kernel.release) make
 	}
 	EOF
 
@@ -70,7 +71,7 @@ prepare() {
 	built_modules=$_kbdmodname.ko
 
 	build() {
-		make
+		KERNELERLEASE=\$(cat /usr/share/kernel/rpi/kernel.release) make
 	}
 	EOF
 }
@@ -97,7 +98,7 @@ package() {
 	install -Dm644 "$_kbddir"/beepy-kbd.map "$pkgdir"/usr/share/kbd/keymaps/beepy-kbd.map
 	install -Dm644 "$_kbddir"/beepy-kbd.dtbo "$pkgdir"/boot/overlays/beepy-kbd.dtbo
 
-	local kbddestdir="$pkgdir/usr/src/$_kbdmodname-$pkgver"
+	local kbddestdir="$pkgdir/usr/src/$_kbdmodname"
 	install -Dm644 -t "$kbddestdir" $_kbddir/AKMBUILD $_kbddir/Makefile
 	cp -r "$_kbddir"/src "$_kbddir"/beepy-kbd.dts "$kbddestdir"
 
@@ -105,7 +106,7 @@ package() {
 	install -Dm755 "$_dispdir"/monoset "$pkgdir"/usr/bin/monoset
 	install -Dm644 "$_dispdir"/sharp-drm.dtbo "$pkgdir"/boot/overlays/sharp-drm.dtbo
 
-	local dispdestdir="$pkgdir/usr/src/$_dispmodname-$pkgver"
+	local dispdestdir="$pkgdir/usr/src/$_dispmodname"
 	install -Dm644 -t "$dispdestdir" $_dispdir/AKMBUILD $_dispdir/Makefile
 	cp -r $_dispdir/src $_dispdir/sharp-drm.dts "$dispdestdir"
 
@@ -116,7 +117,6 @@ package() {
 modules() {
 	install_if="$pkgname=$pkgver-r$pkgrel"
 	depends="linux-rpi-dev akms build-base"
-	install="$subpkgname.post-install"
 
 	amove boot/overlays
 	amove usr/src
@@ -129,7 +129,6 @@ overlay() {
 
 openrc() {
 	install_if="$pkgname=$pkgver-r$pkgrel openrc"
-	install="$subpkgname.post-install"
 	mkdir -p "$subpkgdir"
 }
 
@@ -137,7 +136,8 @@ sha512sums="
 a907483b38e7c5629aab5992da1bf93acd34572cb508b162e40d66602fc030d217d524dce85cc0d44e833923d7137950bd90c89a487278b14bd32698300f044c  usercfg.txt
 d3060bcbca3e90aa26c8a8d6772d8b07116e0cc4f0ae97d44d896434510493367966f23bb86d82f9719723b3bc7ee6b7a9e4b93b5185822b32ffaf4ee0411813  device-sqfmi-beepy-e65472734decd59450e2448d1218c4f69babcea8.tar.gz
 442703affd913e0bdbbfe5d5eedd49a8b743832702a6fb8e96d49530dd172a7bcdbc36d908b93c61cb455824c85be8ffaa2c67506ae72827e874129f0ba6f912  device-sqfmi-beepy-910b9f59c2bbe5e7f33725370ceff0a4c18777af.tar.gz
-b966c2cae09c3ac12d522700f37b4fa669eb884be9a2d9b4dae78e4baf8e333fa207228f944f00ee7967f8e3d17671b518744fd08187e32d4671bdd05fba8e00  device-sqfmi-beepy-181a5c5b9dd6fecc66cf4d18a94f4a83277b8ca4.tar.gz
-d26333b6eff7219622fc98bdddc288f901911c72a06a7284f9443153de91b9ee51070c5d822ee74923835057497aa6d0c9c9ed533c1e62770beb01aa5eb45ead  displaydriver-compile-on-new-kernels.patch
+ab3b5ee73040c03fa2e5481b893a8ff9be808cd1b27f538ed45df18dada09aa14ead8fbf3fa18863ef9f44d8703fff182a2e5e3107511d728864bba8f31ae292  device-sqfmi-beepy-b8e7a86e962541b5d741c8fcc18152305279f118.tar.gz
+68a38d0e9e0716b995fc3761766ae40195986b0b621fb9e22a07ed3016e56058570cea12d1ae88aaf8dc69dacd428b4465541e315cba1cd2c9d31fb50df292d1  keyboard-driver.patch
 fc3c720c5c8af33f2bfd8a745340547c29effc458df761cacfa9e6bed7e09f5f5ecea98e5a6c25d630cefc2a4b3e31016d42839c640759cd715bcb81d9560f38  symbol-overlay.patch
+c7986422d59b610bc06735db693718705bee66bcb8706c84ac9fe807067e19ed82433032513f5cd70c29cb0b018464f9bcdd379c6fba18e1fac5f3301713aa4c  sharp-drm-driver.patch
 "
