@@ -13,4 +13,4 @@
 4. In `/boot/cmdline.txt`, append `console=ttyAMA0,115200 console=tty1 fbcon=font:VGA8x8 fbcon=map:10`
 5. Reboot! The kernel modules will rebuild themselves on every kernel upgrade thanks to `akms`.
 
-![alpine on beepy](beepy-apkbuild.jpg)
+![alpine on beepy](beepy-alpine.jpg)
