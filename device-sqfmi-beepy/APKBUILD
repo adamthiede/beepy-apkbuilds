@@ -2,7 +2,7 @@
 # Maintainer: Adam Thiede <me@adamthiede.com>
 pkgname=device-sqfmi-beepy
 pkgdesc="SQFMI Beepy"
-pkgver=2
+pkgver=3
 pkgrel=0
 
 _kbdmodname=beepy-kbd
