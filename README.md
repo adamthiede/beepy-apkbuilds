@@ -10,5 +10,5 @@
 1. `apk add abuild`, `abuild keygen -a`, `doas adduser $USER abuild`
 2. Clone this repo. cd into the device-sqfmi-beepy directory.
 3. `abuild -r` to build the package. then install it (`apk add ~/packages/beepy-apkbuilds/device-sqfmi-beepy*.apk`)
-4. Reboot! The kernel modules will rebuild themselves on every kernel upgrade thanks to `akms`.
-
+4. In `/boot/cmdline.txt`, append `console=ttyAMA0,115200 console=tty1 fbcon=font:VGA8x8 fbcon=map:10`
+5. Reboot! The kernel modules will rebuild themselves on every kernel upgrade thanks to `akms`.
